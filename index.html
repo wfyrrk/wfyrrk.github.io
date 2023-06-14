@@ -85,7 +85,97 @@
         </div>
         <div class="col-lg-4 offset-lg-2">
           <div class="right-image">
-            <img src="assets/images/banner-image.jpg" alt="">
+          
+            <script type="module" src="https://wfyrrk.github.io/"></script>
+<model-viewer 
+  src=""
+  id="view"
+  skybox-image=""
+  ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+  alt=""
+  ar
+  xr-environment
+  auto-rotate
+  camera-controls
+  class="modelViewer"
+  ></model-viewer>
+  <script>
+      //模型列表
+      var model_list = [
+        {
+            id: 1,
+            name: '小船',
+            src: 'http://www.haogexing.com/fu/123.glb',
+        }
+    ];
+    //反转数组
+    // model_list = model_list.reverse();
+      //封装渲染
+      class Render {
+        //定义公共字段
+        //列表数据
+        models = [];
+        //开关状态
+        flag = false;
+        //获取视图控件
+        toggleModel = document.getElementById('view');
+        //列表按钮
+        btn = document.getElementById('btn');
+        //关闭按钮
+        closeBj = document.getElementById('closeBj');
+ 
+        //获取元素并渲染第一个(方法)
+        domRender(){
+            var that = this;
+            this.btnClick(0);
+            this.models.forEach((v,index)=>{
+            var btnElement = document.createElement('div');
+            btnElement.className = 'btn_list';
+            btnElement.innerHTML = v.name;
+            btnElement.setAttribute('id',v.id);
+            //绑定点击事件
+            btnElement.addEventListener('click',function(){
+            //按钮排他思想
+             that.models.forEach((v,index)=>{
+                btn.children[index].classList.remove('active')
+                if(v.id == this.getAttribute('id')){
+                    btn.children[index].classList.add('active')
+                    that.btnClick(index);
+                    that.closeBj.innerHTML = '关闭背景'
+                }
+             })
+            })
+            btn.appendChild(btnElement);
+            })
+            //给第一个按钮新增一个按钮
+            btn.children[0].classList.add('active');
+            //关闭或开启背景图
+            this.closeBj.addEventListener('click',function(){
+                that.flag = !that.flag;
+                if(that.flag){
+                    that.toggleModel.setAttribute('skybox-image', '');
+                    that.closeBj.innerHTML = '开启背景'
+                }else{
+                    that.closeBj.innerHTML = '关闭背景'
+                    that.toggleModel.setAttribute('skybox-image', '')
+                }
+            })
+        }
+ 
+        //viewChange切换改变模型内容
+        btnClick(index){
+            this.toggleModel.setAttribute('src', `${this.models[index].src}`)
+            this.toggleModel.setAttribute('skybox-image', ``)
+        }
+ 
+        constructor(models) {
+            this.models = models;
+        }
+      }
+      var render = new Render(model_list);
+      //渲染以及绑定事件
+      render.domRender();
+  </script>
             <span class="price">$22</span>
             <span class="offer">-40%</span>
           </div>
